@@ -237,7 +237,7 @@
 
 <script>
   const SUPABASE_URL = 'https://rkeqibokkozwiiiyphbk.supabase.co';
-  const SUPABASE_KEY = 'sb_publishable_uU6q_4VURoYeIRBOS7baXQ_fmV4ZSnS';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrZXFpYm9ra296d2lpaXlwaGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4NzcyOTQsImV4cCI6MjA5MzQ1MzI5NH0.vonmqpcYWxuUgDsshBRY8fN99o5EahNCAz302XMERw0';
 
   let allPosts = [];
   let currentFilter = 'all';
@@ -245,9 +245,10 @@
 
   async function api(path, options = {}) {
     const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + SUPABASE_KEY,
-    };
+  'Content-Type': 'application/json',
+  'apikey': SUPABASE_KEY,
+  'Authorization': 'Bearer ' + SUPABASE_KEY,
+};
     if (options.prefer) headers['Prefer'] = options.prefer;
 
     const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
