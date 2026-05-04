@@ -157,9 +157,7 @@
     }
 
     .post-time { font-size: 11px; color: var(--muted); margin-left: auto; }
-
     .post-content { font-size: 14px; line-height: 1.75; color: var(--text); word-break: break-all; }
-
     .post-footer { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
 
     .reaction-btn {
@@ -238,7 +236,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ★ここを書き換えてください★
   const SUPABASE_URL = 'https://rkeqibokkozwiiiyphbk.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_uU6q_4VURoYeIRBOS7baXQ_fmV4ZSnS';
 
@@ -247,13 +244,14 @@
   const reacted = new Set(JSON.parse(localStorage.getItem('reacted') || '[]'));
 
   async function api(path, options = {}) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+    };
+    if (options.prefer) headers['Prefer'] = options.prefer;
+
     const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': 'Bearer ' + SUPABASE_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': options.prefer || ''
-      },
+      headers,
       ...options
     });
     if (!res.ok) throw new Error(await res.text());
@@ -267,6 +265,7 @@
       renderPosts();
     } catch (e) {
       document.getElementById('posts-list').innerHTML = '<div class="empty">読み込みに失敗しました😢<br>URLとKeyの設定を確認してください</div>';
+      console.error(e);
     }
   }
 
@@ -323,6 +322,7 @@
       await loadPosts();
     } catch (e) {
       showToast('投稿に失敗しました😢');
+      console.error(e);
     }
 
     btn.disabled = false;
