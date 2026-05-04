@@ -246,6 +246,7 @@
   async function api(path, options = {}) {
     const headers = {
       'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
       'Authorization': 'Bearer ' + SUPABASE_KEY,
     };
     if (options.prefer) headers['Prefer'] = options.prefer;
